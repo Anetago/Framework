@@ -1,0 +1,22 @@
+language: cpp
+
+compiler:
+  - gcc
+
+install:    
+  - CMAKE_FILE_NAME="cmake-3.18.0-Linux-x86_64"
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+  - travis_retry wget --no-check-certificate https://cmake.org/files/LatestRelease/${CMAKE_FILE_NAME}.tar.gz
+  - tar -xvf ${CMAKE_FILE_NAME}.tar.gz > /dev/null
+  - mv ${CMAKE_FILE_NAME} cmake-install
+  - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
+  - cd ${TRAVIS_BUILD_DIR}
+
+before_script:
+  - mkdir -p build
+  - cd build
+  - cmake ..
+
+script:
+  - make
